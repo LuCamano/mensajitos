@@ -18,14 +18,18 @@ export class ContactosComponent  implements OnInit {
       email: 'paul@example.com',
       uid: '123',
       nombre : 'Paul'
-    }  
+    },
+    {
+      email: 'c@example.com',
+      uid: '12345523541',
+      nombre : 'seba'
+    }   
   ]
   open_new_contact = false;
 
   @ViewChild('new_contact', { static: true }) modal!: IonModal;
 
   newEmail = '';
-  newNombre = '';
   
   constructor(private toastCtrl: ToastController ) { }
 
@@ -34,10 +38,9 @@ export class ContactosComponent  implements OnInit {
   toggleModal() {
     this.open_new_contact = !this.open_new_contact;
     this.newEmail = '';
-    this.newNombre = '';
-    
   }
-
+  
+  // Funcion para validar el correo
   isEmailValid(email: string): boolean {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -54,24 +57,19 @@ export class ContactosComponent  implements OnInit {
   }
 
   async addContact() {
-    if (!this.newEmail || !this.newNombre) {
-      this.showToast('Por favor, complete todos los campos.');
-      return;
-    }
-
+    // Valida el correo
     if (!this.isEmailValid(this.newEmail)) {
       this.showToast('Ingrese un correo electrónico válido.');
       return;
     }
 
-    // Si todo está bien, agregamos el contacto
-    this.contactos.push({ email: this.newEmail, uid: '', nombre: this.newNombre });
+    //agrega el contacto
+    this.contactos.push({ email: this.newEmail, uid: '', nombre: 'usuarioXD' });
 
-    // Limpiamos los campos para el próximo contacto
+    // Limpiar
     this.newEmail = '';
-    this.newNombre = '';
-
-    // Cerramos el modal
+    
+    // Cierra el modal
     this.toggleModal();
   }
 
@@ -83,8 +81,6 @@ export class ContactosComponent  implements OnInit {
   onWillDismiss(event: Event) {
     this.open_new_contact = false;
     this.newEmail = '';
-    this.newNombre = '';
-    
   }
 
 }

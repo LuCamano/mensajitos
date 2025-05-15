@@ -42,16 +42,7 @@
           required></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-input [(ngModel)]="newNombre" type="text" 
-            fill="solid"
-            label="Nombre"
-            labelPlacement="floating"
-            placeholder="Ingrese su nombre"
-          required></ion-input>
-        </ion-item>
-
-        <ion-button [disabled]="!newEmail || !newNombre" expand="block" class="ion-margin-top" (click)="addContact()">
+        <ion-button [disabled]="!newEmail"  expand="block" class="ion-margin-top" (click)="addContact()">
           Agregar
         </ion-button>
       </ion-content>
