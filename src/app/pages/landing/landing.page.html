@@ -1,15 +1,32 @@
-<ion-tabs>
-  <ion-tab-bar slot="top">
-    <ion-tab-button tab="perfil">
-      <ion-label>Perfil</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="contactos">
-      <ion-label>Contacto</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="chats">
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Header</ion-title>
+  </ion-toolbar>
+  <ion-segment value="chats" #segment>
+    <ion-segment-button value="chats" contentId="chats">
       <ion-label>Chats</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+    </ion-segment-button>
+    <ion-segment-button value="contactos" contentId="contactos">
+      <ion-label>Contactos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="perfil" contentId="perfil">
+      <ion-label>Perfil</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content>
+  <ion-segment-view>
+    <ion-segment-content id="chats">
+      <app-chats></app-chats>
+    </ion-segment-content>
+    
+    <ion-segment-content id="contactos">
+      <app-contactos></app-contactos>
+    </ion-segment-content>
+
+    <ion-segment-content id="perfil">
+      <app-perfil></app-perfil>
+    </ion-segment-content>
+  </ion-segment-view>
+</ion-content>

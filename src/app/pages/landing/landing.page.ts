@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { addIcons } from 'ionicons';
-import { add } from 'ionicons/icons';
-
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.page.html',
@@ -11,10 +8,7 @@ import { add } from 'ionicons/icons';
 })
 export class LandingPage implements OnInit {
 
-  constructor() { 
-
-    addIcons({ add });
-  }
+  
 
   ngOnInit() {
   }

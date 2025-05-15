@@ -7,6 +7,9 @@ import { IonicModule } from '@ionic/angular';
 import { LandingPageRoutingModule } from './landing-routing.module';
 
 import { LandingPage } from './landing.page';
+import { ChatsComponent } from "./chats/chats.component";
+import { ContactosComponent } from './contactos/contactos.component';
+import { PerfilComponent } from './perfil/perfil.component';
 
 @NgModule({
   imports: [
@@ -14,7 +17,12 @@ import { LandingPage } from './landing.page';
     FormsModule,
     IonicModule,
     LandingPageRoutingModule
-  ],
-  declarations: [LandingPage]
+],
+  declarations: [
+    LandingPage,
+    ChatsComponent,
+    ContactosComponent,
+    PerfilComponent
+  ]
 })
 export class LandingPageModule {}
