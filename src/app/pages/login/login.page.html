@@ -1,28 +1,48 @@
-<ion-content class="ion-padding" color="primary">
-  <ion-grid fixed>
-    <ion-row>
-      <ion-col sizeLg="6" offsetLg="3">
-        <ion-card color="secondary">
-          <ion-card-header>
-            <div class="ion-text-center logo">
-              <img src="assets/icon.png" alt="icono" style="width: 100px;">
-              <ion-card-title style="font-size: 1.5rem;">Mensajitos</ion-card-title>
-            </div>
-          </ion-card-header>
-          <ion-card-content style="padding: 10% 2rem;">
-            <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-              <!-- Email input -->
-              <ion-input label="Email" labelPlacement="stacked" [(ngModel)]="user.email" name="email" type="email" placeholder="Ingrese su email" required></ion-input>
-              <!-- Password input -->
-              <ion-input label="Contraseña" labelPlacement="stacked" [(ngModel)]="user.password" name="password" type="password" placeholder="Ingrese su contraseña" required>
-                <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-              </ion-input>
-              <!-- Submit button -->
-              <ion-button expand="full" type="submit" color="tertiary" [disabled]="loginForm.invalid" style="margin-top: 1rem;">Iniciar sesión</ion-button>
-            </form>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+<ion-header>
+  <ion-toolbar color="primary" class="custom-toolbar">
+    <ion-title class="title-text">Iniciar Sesión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding mint-bg">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+    <ion-item class="form-item">
+      <ion-label position="floating" class="input-label">Correo Electrónico</ion-label>
+      <ion-input type="email" formControlName="email" required class="custom-input"></ion-input>
+    </ion-item>
+    
+    <ion-item class="form-item">
+      <ion-label position="floating" class="input-label">Contraseña</ion-label>
+      <ion-input type="password" formControlName="password" required class="custom-input"></ion-input>
+    </ion-item>
+    
+    <ion-button 
+      type="submit" 
+      expand="block" 
+      class="submit-btn ion-margin-top"
+      [disabled]="!loginForm.valid || loading">
+      <ion-spinner *ngIf="loading" class="spinner"></ion-spinner>
+      <span *ngIf="!loading" class="btn-text">Iniciar Sesión</span>
+    </ion-button>
+    
+    <ion-button 
+      type="button"
+      expand="block" 
+      fill="clear" 
+      routerLink="/signup"
+      *ngIf="!loading"
+      class="secondary-btn">
+      ¿No tienes cuenta? Regístrate
+    </ion-button>
+    
+    <ion-button 
+      type="button"
+      expand="block" 
+      fill="clear" 
+      (click)="resetPassword()"
+      *ngIf="!loading"
+      class="secondary-btn">
+      ¿Olvidaste tu contraseña?
+    </ion-button>
+  </form>
 </ion-content>
