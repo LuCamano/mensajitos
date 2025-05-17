@@ -5,10 +5,10 @@ export function passwordMatchValidator(campo: AbstractControl): ValidatorFn{
         const password = control.value;
         const confirmPassword = campo.value;
 
-        if (password !== confirmPassword) {
-            return { passwordMismath: true};
+        if (password === confirmPassword) {
+            return null;
         } else {
-            return null
+            return { passwordMatch: true };
         }
     }
 }

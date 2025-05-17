@@ -38,7 +38,7 @@
         labelPlacement="stacked"
         formControlName="password" 
         type="password"
-        [errorText]="signupForm.controls.password.errors!['required'] ? 'Contraseña obligatoria' : 'La contraseña debe tener al menos 6 caracteres'"
+        errorText="Ingrese una contraseña válida"
         placeholder="Ingrese una contraseña"
       ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
     </ion-item>
