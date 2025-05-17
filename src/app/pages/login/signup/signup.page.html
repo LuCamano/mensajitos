@@ -4,50 +4,56 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
   <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
     <!-- Nombre -->
-    <ion-item>
-      <ion-input 
-        formControlName="name" 
-        type="text" 
-        placeholder="Nombre completo"
+    <ion-item lines="none">
+      <ion-input
+        label="Nombre de usuario"
+        labelPlacement="stacked"
+        formControlName="name"
+        type="text"
+        errorText="Nombre obligatorio"
+        placeholder="Nombre de usuario"
         required
       ></ion-input>
     </ion-item>
-    <ion-note *ngIf="signupForm.get('name')?.errors?.['required'] && signupForm.get('name')?.touched">
-      Nombre obligatorio
-    </ion-note>
 
     <!-- Email -->
-    <ion-item>
+    <ion-item lines="none">
       <ion-input 
+        label="Correo electrónico"
+        labelPlacement="stacked"
         formControlName="email" 
-        type="email" 
+        type="email"
+        errorText="Email obligatorio"
         placeholder="Correo electrónico"
       ></ion-input>
     </ion-item>
 
     <!-- Contraseña -->
-    <ion-item>
+    <ion-item lines="none">
       <ion-input 
+        label="Contraseña"
+        labelPlacement="stacked"
         formControlName="password" 
-        type="password" 
-        placeholder="Contraseña (mín. 6 caracteres)"
-      ></ion-input>
+        type="password"
+        [errorText]="signupForm.controls.password.errors!['required'] ? 'Contraseña obligatoria' : 'La contraseña debe tener al menos 6 caracteres'"
+        placeholder="Ingrese una contraseña"
+      ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
     </ion-item>
 
     <!-- Confirmar contraseña -->
-    <ion-item>
+    <ion-item lines="none">
       <ion-input 
+        label="Confirmar contraseña"
+        labelPlacement="stacked"
         formControlName="confirmPassword" 
-        type="password" 
+        type="password"
+        errorText="Las contraseñas no coinciden"
         placeholder="Confirmar contraseña"
-      ></ion-input>
+      ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
     </ion-item>
-    <ion-note *ngIf="signupForm.hasError('mismatch')">
-      Las contraseñas no coinciden
-    </ion-note>
 
     <!-- Crear usuario -->
     <ion-button 

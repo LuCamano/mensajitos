@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FireService } from 'src/app/services/fire.service';
 import { UtilsService } from 'src/app/services/utils.service';
+import { passwordMatchValidator } from 'src/app/validators/passwordMatch.validator';
 
 @Component({
   selector: 'app-signup',
@@ -9,7 +10,7 @@ import { UtilsService } from 'src/app/services/utils.service';
   styleUrls: ['./signup.page.scss'],
   standalone: false,
 })
-export class SignupPage {
+export class SignupPage implements OnInit {
   private fireSvc = inject(FireService);
   private utils = inject(UtilsService);
 
@@ -26,14 +27,15 @@ export class SignupPage {
       Validators.required,
       Validators.minLength(6)
     ]),
-    confirmPassword: new FormControl('', [Validators.required])
-  }, { validators: this.passwordMatchValidator });
+    confirmPassword: new FormControl('')
+  });
 
-  private passwordMatchValidator(control: AbstractControl) {
-    const form = control as FormGroup;
-    return form.get('password')?.value === form.get('confirmPassword')?.value 
-      ? null 
-      : { mismatch: true };
+  ngOnInit() {
+    this.signupForm.controls.confirmPassword.setValidators([
+      Validators.required, 
+      Validators.minLength(6), 
+      passwordMatchValidator(this.signupForm.controls.password)
+    ]);
   }
 
   async onSubmit() {
@@ -43,7 +45,7 @@ export class SignupPage {
     const loading = await this.utils.presentLoading();
 
     try {
-      await this.fireSvc.signUp(name!, email!, password!);
+      await this.fireSvc.signUp(email!, password!, name!);
       this.utils.navigateRoot('/home');
     } catch (error) {
       this.utils.presentAlert({
