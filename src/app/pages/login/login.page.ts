@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { AlertController, LoadingController } from '@ionic/angular';
-import { FireService } from '../../services/fire.service';
+import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FireService } from 'src/app/services/fire.service';
+import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
   selector: 'app-login',
@@ -11,68 +10,32 @@ import { FireService } from '../../services/fire.service';
   standalone: false,
 })
 export class LoginPage implements OnInit {
-  loginForm!: FormGroup;
-  loading = false;
-  rememberMe = false;
+  // Inyeccion de dependencias
+  private fireSvc = inject(FireService);
+  private utils = inject(UtilsService);
 
-  constructor(
-    private fb: FormBuilder,
-    private fireService: FireService,
-    private router: Router,
-    private loadingCtrl: LoadingController,
-    private alertCtrl: AlertController
-  ) { }
+  loginForm = new FormGroup({
+    email: new FormControl<string>('', [Validators.required, Validators.email]),
+    password: new FormControl<string>('', Validators.required)
+  });
 
-  ngOnInit() {
-    this.initializeForm();
-    this.checkRememberedUser();
-  }
+  ngOnInit() { }
 
-  private initializeForm(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      rememberMe: [false]
-    });
-  }
-
-  private checkRememberedUser(): void {
-    const rememberedUser = localStorage.getItem('rememberedUser');
-    if (rememberedUser) {
-      const userData = JSON.parse(rememberedUser);
-      this.loginForm.patchValue({
-        email: userData.email,
-        rememberMe: true
-      });
-      this.rememberMe = true;
-    }
-  }
-
-  async onSubmit(): Promise<void> {
-    if (this.loginForm.invalid || this.loading) return;
-
-    this.loading = true;
-    const loading = await this.loadingCtrl.create({
-      message: 'Iniciando sesión...'
-    });
-    await loading.present();
-
+  async logIn() {
+    if (this.loginForm.invalid) return;
+    const { email, password } = this.loginForm.value;
+    const loading = await this.utils.presentLoading();
     try {
-      const { email, password, rememberMe } = this.loginForm.value;
-      
-      if (rememberMe) {
-        localStorage.setItem('rememberedUser', JSON.stringify({ email }));
-      } else {
-        localStorage.removeItem('rememberedUser');
-      }
-
-      await this.fireService.signIn(email, password);
-      await loading.dismiss();
-      this.router.navigateByUrl('/home', { replaceUrl: true });
-    } catch (error: any) {
-      await loading.dismiss();
-      this.loading = false;
-      this.showAlert('Error', this.getErrorMessage(error));
+      const user = await this.fireSvc.signIn(email!, password!);
+      this.utils.navigateRoot('/');
+    } catch (error) {
+      this.utils.presentAlert({
+        header: 'Error',
+        message: this.getErrorMessage(error),
+        buttons: ['OK']
+      });
+    } finally {
+      loading.dismiss();
     }
   }
 
@@ -82,60 +45,11 @@ export class LoginPage implements OnInit {
     switch(error.code) {
       case 'auth/invalid-email': return 'El correo electrónico no es válido';
       case 'auth/user-disabled': return 'Esta cuenta ha sido deshabilitada';
-      case 'auth/user-not-found':
+      case 'auth/user-not-found': return 'No se encontró una cuenta con este correo electrónico';
       case 'auth/wrong-password': return 'Correo o contraseña incorrectos';
       case 'auth/too-many-requests': return 'Demasiados intentos fallidos. Intenta más tarde';
-      default: return error.message || 'Error al iniciar sesión';
+      case 'auth/invalid-credential': return 'Credenciales no válidas';
+      default: return 'Error al iniciar sesión';
     }
-  }
-
-  private async showAlert(header: string, message: string): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      header,
-      message,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
-
-  async resetPassword(): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      header: 'Restablecer Contraseña',
-      inputs: [{
-        name: 'email',
-        type: 'email',
-        placeholder: 'Tu correo electrónico',
-        value: this.loginForm.get('email')?.value || ''
-      }],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        { 
-          text: 'Enviar',
-          handler: async (data: { email: string }): Promise<boolean> => {
-            if (!data.email) {
-              await this.showAlert('Error', 'Debes ingresar un correo electrónico');
-              return false;
-            }
-            
-            const loading = await this.loadingCtrl.create({
-              message: 'Enviando correo...'
-            });
-            await loading.present();
-            
-            try {
-              await this.fireService.resetPassword(data.email);
-              await loading.dismiss();
-              await this.showAlert('Éxito', 'Se ha enviado un correo para restablecer tu contraseña');
-              return true;
-            } catch (error: any) {
-              await loading.dismiss();
-              await this.showAlert('Error', this.getErrorMessage(error));
-              return false;
-            }
-          }
-        }
-      ]
-    });
-    await alert.present();
   }
 }

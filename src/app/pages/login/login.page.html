@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content class="ion-padding mint-bg">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="auth-form">
+  <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="auth-form">
     <ion-item class="form-item">
       <ion-label position="floating" class="input-label">Correo Electrónico</ion-label>
       <ion-input type="email" formControlName="email" required class="custom-input"></ion-input>
@@ -20,17 +20,16 @@
       type="submit" 
       expand="block" 
       class="submit-btn ion-margin-top"
-      [disabled]="!loginForm.valid || loading">
-      <ion-spinner *ngIf="loading" class="spinner"></ion-spinner>
-      <span *ngIf="!loading" class="btn-text">Iniciar Sesión</span>
+      [disabled]="loginForm.invalid">
+      <span class="btn-text">Iniciar Sesión</span>
     </ion-button>
     
     <ion-button 
       type="button"
       expand="block" 
       fill="clear" 
-      routerLink="/signup"
-      *ngIf="!loading"
+      routerLink="/login/signup"
+      routerDirection="forward"
       class="secondary-btn">
       ¿No tienes cuenta? Regístrate
     </ion-button>
@@ -38,9 +37,9 @@
     <ion-button 
       type="button"
       expand="block" 
-      fill="clear" 
-      (click)="resetPassword()"
-      *ngIf="!loading"
+      fill="clear"
+      routerLink="/login/forgot-password"
+      routerDirection="forward"
       class="secondary-btn">
       ¿Olvidaste tu contraseña?
     </ion-button>
