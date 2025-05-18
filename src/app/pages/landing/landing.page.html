@@ -1,38 +1,32 @@
-<ion-content>
+<ion-header>
   <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>landing</ion-title>
-    <ion-buttons slot="end">
-      <ion-button>
-        <ion-icon name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
+    <ion-title>Header</ion-title>
   </ion-toolbar>
-  
-  <ion-grid>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8" size-lg="6">
-        <ion-card class="ion-no-margin ion-no-padding">
-          <ion-card-header>
-            <ion-card-title>Welcome to the App</ion-card-title>
-          </ion-card-header>
-          <ion-card-content>
-            <p>This is a simple landing page.</p>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8" size-lg="6">
-        <ion-button expand="full">Go to Home</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8" size-lg="6">
-        <ion-button expand="full">About Us</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-segment value="chats" #segment>
+    <ion-segment-button value="chats" contentId="chats">
+      <ion-label>Chats</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="contactos" contentId="contactos">
+      <ion-label>Contactos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="perfil" contentId="perfil">
+      <ion-label>Perfil</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content>
+  <ion-segment-view>
+    <ion-segment-content id="chats">
+      <app-chats></app-chats>
+    </ion-segment-content>
+    
+    <ion-segment-content id="contactos">
+      <app-contactos></app-contactos>
+    </ion-segment-content>
+
+    <ion-segment-content id="perfil">
+      <app-perfil></app-perfil>
+    </ion-segment-content>
+  </ion-segment-view>
 </ion-content>
