@@ -46,7 +46,7 @@ export class SignupPage implements OnInit {
 
     try {
       await this.fireSvc.signUp(email!, password!, name!);
-      this.utils.navigateRoot('/home');
+      this.utils.navigateRoot('/login');
     } catch (error) {
       this.utils.presentAlert({
         header: 'Error',

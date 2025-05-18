@@ -5,43 +5,47 @@
 </ion-header>
 
 <ion-content class="ion-padding mint-bg">
-  <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="auth-form">
-    <ion-item class="form-item">
-      <ion-label position="floating" class="input-label">Correo Electrónico</ion-label>
-      <ion-input type="email" formControlName="email" required class="custom-input"></ion-input>
-    </ion-item>
-    
-    <ion-item class="form-item">
-      <ion-label position="floating" class="input-label">Contraseña</ion-label>
-      <ion-input type="password" formControlName="password" required class="custom-input"><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
-    </ion-item>
-    
-    <ion-button 
-      type="submit" 
-      expand="block" 
-      class="submit-btn ion-margin-top"
-      [disabled]="loginForm.invalid">
-      <span class="btn-text">Iniciar Sesión</span>
-    </ion-button>
-    
-    <ion-button 
-      type="button"
-      expand="block" 
-      fill="clear" 
-      routerLink="/login/signup"
-      routerDirection="forward"
-      class="secondary-btn">
-      ¿No tienes cuenta? Regístrate
-    </ion-button>
-    
-    <ion-button 
-      type="button"
-      expand="block" 
-      fill="clear"
-      routerLink="/login/forgot-password"
-      routerDirection="forward"
-      class="secondary-btn">
-      ¿Olvidaste tu contraseña?
-    </ion-button>
-  </form>
+  <ion-row>
+    <ion-col sizeMd="6" offsetMd="3">
+      <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="auth-form">
+        <ion-item class="form-item">
+          <ion-label position="floating" class="input-label">Correo Electrónico</ion-label>
+          <ion-input type="email" formControlName="email" required class="custom-input"></ion-input>
+        </ion-item>
+        
+        <ion-item class="form-item">
+          <ion-label position="floating" class="input-label">Contraseña</ion-label>
+          <ion-input type="password" formControlName="password" required class="custom-input"><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
+        </ion-item>
+        
+        <ion-button 
+          type="submit" 
+          expand="block" 
+          class="submit-btn ion-margin-top"
+          [disabled]="loginForm.invalid">
+          <span class="btn-text">Iniciar Sesión</span>
+        </ion-button>
+        
+        <ion-button 
+          type="button"
+          expand="block" 
+          fill="clear" 
+          routerLink="/login/signup"
+          routerDirection="forward"
+          class="secondary-btn">
+          ¿No tienes cuenta? Regístrate
+        </ion-button>
+        
+        <ion-button 
+          type="button"
+          expand="block" 
+          fill="clear"
+          routerLink="/login/forgot-password"
+          routerDirection="forward"
+          class="secondary-btn">
+          ¿Olvidaste tu contraseña?
+        </ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
 </ion-content>

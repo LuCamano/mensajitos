@@ -1,77 +1,66 @@
 <ion-header>
   <ion-toolbar color="primary" class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login"></ion-back-button>
+    </ion-buttons>
     <ion-title class="title-text">Crear cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
-    <!-- Nombre -->
-    <ion-item lines="none">
-      <ion-input
-        label="Nombre de usuario"
-        labelPlacement="stacked"
-        formControlName="name"
-        type="text"
-        errorText="Nombre obligatorio"
-        placeholder="Nombre de usuario"
-        required
-      ></ion-input>
-    </ion-item>
-
-    <!-- Email -->
-    <ion-item lines="none">
-      <ion-input 
-        label="Correo electrónico"
-        labelPlacement="stacked"
-        formControlName="email" 
-        type="email"
-        errorText="Email obligatorio"
-        placeholder="Correo electrónico"
-      ></ion-input>
-    </ion-item>
-
-    <!-- Contraseña -->
-    <ion-item lines="none">
-      <ion-input 
-        label="Contraseña"
-        labelPlacement="stacked"
-        formControlName="password" 
-        type="password"
-        errorText="Ingrese una contraseña válida"
-        placeholder="Ingrese una contraseña"
-      ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
-    </ion-item>
-
-    <!-- Confirmar contraseña -->
-    <ion-item lines="none">
-      <ion-input 
-        label="Confirmar contraseña"
-        labelPlacement="stacked"
-        formControlName="confirmPassword" 
-        type="password"
-        errorText="Las contraseñas no coinciden"
-        placeholder="Confirmar contraseña"
-      ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
-    </ion-item>
-
-    <!-- Crear usuario -->
-    <ion-button 
-      type="submit" 
-      expand="block" 
-      [disabled]="signupForm.invalid"
-      class="ion-margin-top">
-      Registrarse
-    </ion-button>
-
-    <!-- Botón Volver -->
-    <ion-button 
-      expand="block" 
-      fill="clear" 
-      color="medium" 
-      routerLink="/login"
-      class="ion-margin-top">
-      Volver al login
-    </ion-button>
-  </form>
+  <ion-row>
+    <ion-col sizeMd="6" offsetMd="3">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <!-- Nombre -->
+        <ion-input
+          label="Nombre de usuario"
+          labelPlacement="stacked"
+          formControlName="name"
+          type="text"
+          errorText="Nombre obligatorio"
+          placeholder="Nombre de usuario"
+          required
+        ></ion-input>
+    
+        <!-- Email -->
+        <ion-input 
+          label="Correo electrónico"
+          labelPlacement="stacked"
+          formControlName="email" 
+          type="email"
+          errorText="Email obligatorio"
+          placeholder="Correo electrónico"
+        ></ion-input>
+    
+        <!-- Contraseña -->
+        <ion-input 
+          label="Contraseña"
+          labelPlacement="stacked"
+          formControlName="password" 
+          type="password"
+          errorText="Ingrese una contraseña válida"
+          placeholder="Ingrese una contraseña"
+        ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
+    
+        <!-- Confirmar contraseña -->
+        <ion-input 
+          label="Confirmar contraseña"
+          labelPlacement="stacked"
+          formControlName="confirmPassword" 
+          type="password"
+          errorText="Las contraseñas no coinciden"
+          placeholder="Confirmar contraseña"
+        ><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
+    
+        <!-- Crear usuario -->
+        <ion-button 
+          type="submit" 
+          expand="block" 
+          [disabled]="signupForm.invalid"
+          class="ion-margin-top">
+          Registrarse
+        </ion-button>
+      </form>
+    </ion-col>
+  </ion-row>
 </ion-content>

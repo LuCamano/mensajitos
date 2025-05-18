@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
 import { getDoc, setDoc, doc, addDoc, collection, collectionData, query, where } from "@angular/fire/firestore";
+import { getAuth } from "@angular/fire/auth";
 import { User } from '../models/usuario.models';
 import { UtilsService } from './utils.service';
 import { ICollectionOptions } from '../interfaces/varios';
@@ -38,6 +39,13 @@ export class FireService {
     return user;
   }
 
+  // Metodo para cerrar sesion
+  async signOut(){
+    await this.ngFireAuth.signOut();
+    localStorage.clear();
+    this.utils.navigateRoot('/login');
+  }
+
   // Método para obtener colecciones de Firestore con o sin filtros
   async getCollection(path: string, opts?: ICollectionOptions[]){
     let q = query(collection(this.ngFirestore.firestore, path));
@@ -66,5 +74,9 @@ export class FireService {
 
   async getDocument(path: string){
     return (await getDoc(doc(this.ngFirestore.firestore, path))).data();
+  }
+
+  getAuthInstance() {
+    return getAuth();
   }
 }
