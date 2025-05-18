@@ -19,9 +19,9 @@ export class ForgotPasswordPage implements OnInit {
   }
 
   async sendEmail() {
-    if (!this.email) throw new Error('Email is required');
     const loading = await this.utils.presentLoading();
     try {
+      if (!this.email) throw new Error('Email is required');
       await this.fireSvc.resetPassword(this.email);
       this.utils.navigateRoot('/login');
       this.utils.presentToast({
