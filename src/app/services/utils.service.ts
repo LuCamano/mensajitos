@@ -25,11 +25,13 @@ export class UtilsService {
     return toast;
   }
 
-  presentLoading(){
-    return this.loadingController.create({
+  async presentLoading(){
+    const loading = await this.loadingController.create({
       message: 'Cargando...',
       spinner: 'crescent'
     });
+    loading.present();
+    return loading;
   }
 
   async presentAlert(opts: AlertOptions){
