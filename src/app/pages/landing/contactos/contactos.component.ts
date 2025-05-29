@@ -1,5 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonModal, ToastController } from '@ionic/angular';
+import { Contacto } from 'src/app/models/contacto.models';
+import { ContactoService } from 'src/app/services/contacto.service';
+
 
 @Component({
   selector: 'app-contactos',
@@ -8,32 +11,24 @@ import { IonModal, ToastController } from '@ionic/angular';
   standalone: false
 })
 export class ContactosComponent  implements OnInit {
-  contactos = [
-    {
-      email: 'ElCid@example.com',
-      uid: '122',
-      nombre : 'Cid'
-    },
-    {
-      email: 'paul@example.com',
-      uid: '123',
-      nombre : 'Paul'
-    },
-    {
-      email: 'c@example.com',
-      uid: '12345523541',
-      nombre : 'seba'
-    }   
-  ]
+  contactos: Contacto[] = [];
   open_new_contact = false;
-
+  newEmail = '';
   @ViewChild('new_contact', { static: true }) modal!: IonModal;
 
-  newEmail = '';
+  userId = localStorage.getItem('userId') || ''; 
   
-  constructor(private toastCtrl: ToastController ) { }
+  constructor(private toastCtrl: ToastController , private contactoService: ContactoService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.cargarContactos();
+  }
+
+  cargarContactos() {
+    this.contactoService.getContactos(this.userId).subscribe(contactos => {
+      this.contactos = contactos;
+    });
+  }
   
   toggleModal() {
     this.open_new_contact = !this.open_new_contact;
@@ -57,22 +52,20 @@ export class ContactosComponent  implements OnInit {
   }
 
   async addContact() {
-    // Valida el correo
-    if (!this.isEmailValid(this.newEmail)) {
-      this.showToast('Ingrese un correo electrónico válido.');
-      return;
+    if (this.newEmail && this.isEmailValid(this.newEmail)) {
+      try {
+        await this.contactoService.addContact(this.userId, this.newEmail);
+        this.cargarContactos();
+        this.showToast('Contacto agregado correctamente.');
+        this.toggleModal();
+      } catch (error) {
+        console.error('Error al agregar el contacto:', error);
+        this.showToast('Error al agregar el contacto.');
+      }
+    } else {
+      this.showToast('Por favor, ingresa un correo electr&oacute;nico v&aacute;lido.');
     }
-
-    //agrega el contacto
-    this.contactos.push({ email: this.newEmail, uid: '', nombre: 'usuarioXD' });
-
-    // Limpiar
-    this.newEmail = '';
-    
-    // Cierra el modal
-    this.toggleModal();
   }
-
 
   cancel() {
     this.modal.dismiss();
