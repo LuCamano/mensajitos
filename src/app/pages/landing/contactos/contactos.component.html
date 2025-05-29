@@ -58,6 +58,7 @@
     </ng-template>
   </ion-modal>
 
+  <!--Modal opciones de contacto-->
   <ion-modal #contact_options [isOpen]="open_contact_options" (willDismiss)="closeContactOptions()">
   <ng-template>
     <ion-header>
@@ -84,7 +85,6 @@
           <ion-icon name="lock-open-outline" slot="start" color="success"></ion-icon>
           <ion-label>Desbloquear contacto</ion-label>
         </ion-item>
-        <!-- Puedes agregar más opciones aquí -->
       </ion-list>
     </ion-content>
   </ng-template>

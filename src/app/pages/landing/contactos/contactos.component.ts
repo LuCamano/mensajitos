@@ -89,7 +89,7 @@ export class ContactosComponent  implements OnInit {
   }
 
   openContactOptions(contacto: any, event: Event) {
-  event.stopPropagation(); // Evita que se dispare el click del ion-item
+  event.stopPropagation();
   this.selectedContact = contacto;
   this.open_contact_options = true;
 }
