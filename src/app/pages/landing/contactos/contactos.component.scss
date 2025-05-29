@@ -4,3 +4,9 @@
   margin: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
+
+.contact-item.bloqueado {
+  --background: #e0e0e0;
+  color: #888;
+  opacity: 0.7;
+}
