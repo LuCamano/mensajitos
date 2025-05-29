@@ -104,4 +104,10 @@ export class ContactosComponent  implements OnInit {
   this.showToast(`Contacto ${contacto.nombre} bloqueado.`);
   this.closeContactOptions();
 }
+
+  unblockContact(contacto: any) {
+  contacto.bloqueado = false;
+  this.showToast(`Contacto ${contacto.nombre} desbloqueado.`);
+  this.closeContactOptions();
+}
 }
