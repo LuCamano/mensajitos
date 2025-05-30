@@ -1,10 +1,10 @@
 <ion-content>
 
   <ion-list class="ion-margin-top">
-    <ion-item *ngFor="let contacto of contactos" lines="full" button class="contact-item">
+    <ion-item *ngFor="let contacto of contactos" lines="full" button class="contact-item" color="light">
       <ion-label >
-        <h2> {{contacto.email}} </h2>
-        <p> {{contacto.displayName}}</p>
+        <h2> {{contacto.displayName}} </h2>
+        <p> {{contacto.email}}</p>
       </ion-label>
       <ion-icon slot="end" name="create-outline" color="primary"></ion-icon>
     </ion-item>

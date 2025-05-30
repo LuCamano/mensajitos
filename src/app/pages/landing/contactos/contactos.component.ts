@@ -1,12 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal, ToastController } from '@ionic/angular';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
 import { Contacto } from 'src/app/models/contacto.models';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FireService } from '../../../services/fire.service';
-import { lastValueFrom, Observable } from 'rxjs';
 import { User } from 'src/app/models/usuario.models';
-
 
 @Component({
   selector: 'app-contactos',
@@ -15,27 +13,29 @@ import { User } from 'src/app/models/usuario.models';
   standalone: false
 })
 export class ContactosComponent  implements OnInit {
+  private contactoSvc = inject(ContactoService);
+  private utils = inject(UtilsService);
+  private fire = inject(FireService);
+
   contactos: Contacto[] = [];
   open_new_contact = false;
   newEmail = '';
   userId = this.utils.getFromLocalStorage('user').uid; 
   @ViewChild('new_contact', { static: true }) modal!: IonModal;
 
-  constructor(private toastCtrl: ToastController , private contactoService: ContactoService, private utils: UtilsService , private Fire: FireService) { }
-
   ngOnInit() {
     this.cargarContactos();
   }
 
-  async cargarContactos() {
-    (await this.contactoService.getContactos(this.userId)).subscribe(contactos => {
+  cargarContactos() {
+    this.contactoSvc.getContactos(this.userId).then( contactos => {
+      contactos.sort((a, b) => a.displayName.localeCompare(b.displayName));
       this.contactos = contactos;
     });
   }
 
   async getUser(email: string) {
-    const subUser = (await this.Fire.getCollection(`users`, [{ field: 'email', opStr: '==', value: email }])) as Observable<User[]>;
-    const user = await lastValueFrom(subUser);
+    const user = (await this.fire.getCollection(`users`, [{ field: 'email', opStr: '==', value: email }])) as User[];
     return user[0];
   }
   
@@ -50,30 +50,36 @@ export class ContactosComponent  implements OnInit {
     return regex.test(email);
   }
 
-  async showToast(message: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      color: 'danger',
-      position: 'bottom',
-    });
-    toast.present();
-  }
-
   async addContact() {
     if (this.newEmail && this.isEmailValid(this.newEmail)) {
+      console.log('Agregando contacto con email:', this.newEmail);
       try {
         const user = await this.getUser(this.newEmail);
-        await this.contactoService.addContact(this.userId, user);
-        this.cargarContactos();
-        this.showToast('Contacto agregado correctamente.');
+        console.log('Usuario encontrado:', user);
+        await this.contactoSvc.addContact(this.userId, user);
+        this.utils.presentToast({
+          message: 'Contacto agregado correctamente.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'success'
+        })
         this.toggleModal();
       } catch (error) {
         console.error('Error al agregar el contacto:', error);
-        this.showToast('Error al agregar el contacto.');
+        this.utils.presentToast({
+          message: 'Error al agregar el contacto. Asegúrate de que el usuario exista.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'danger'
+        });
       }
     } else {
-      this.showToast('Por favor, ingresa un correo electr&oacute;nico v&aacute;lido.');
+      this.utils.presentToast({
+        message:'Por favor, ingresa un correo electr&oacute;nico v&aacute;lido.',
+        duration: 2000,
+        position: 'bottom',
+        color: 'warning'
+      });
     }
   }
 

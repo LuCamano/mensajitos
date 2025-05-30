@@ -12,9 +12,10 @@ export class ContactoService {
   
   private fire = inject(FireService);
   
-  async getContactos(userId: string){
-    const cont = await this.fire.getCollection(`users/${userId}/contactos`);
-    return cont as Observable<Contacto[]>;
+  getContactos(userId: string){
+    const cont = this.fire.getCollection(`users/${userId}/contactos`) as Promise<Contacto[]>;
+    console.log('Contactos obtenidos:', cont);
+    return cont;
   }
 
   // Eliminar contacto

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AngularFirestore } from "@angular/fire/compat/firestore";
-import { getDoc, setDoc, doc, addDoc, collection, collectionData, query, where } from "@angular/fire/firestore";
+import { getDoc, setDoc, doc, addDoc, collection, query, where, getDocs } from "@angular/fire/firestore";
 import { getAuth } from "@angular/fire/auth";
 import { User } from '../models/usuario.models';
 import { UtilsService } from './utils.service';
@@ -54,7 +54,9 @@ export class FireService {
         q = query(q, where(opt.field, opt.opStr, opt.value));
       });
     }
-    return collectionData(q, { idField: 'id' });
+    const docs = await getDocs(q);
+    const data = docs.docs.map(doc => doc.data());
+    return data;
   }
 
   resetPassword(email: string){

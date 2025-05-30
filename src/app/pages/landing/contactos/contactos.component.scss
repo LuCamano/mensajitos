@@ -1,6 +1,8 @@
 .contact-item {
-  --background: #fff;
-  border-radius: 12px;
   margin: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+ion-item {
+  --border-radius: 12px;
 }
