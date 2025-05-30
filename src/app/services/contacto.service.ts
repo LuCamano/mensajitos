@@ -1,19 +1,30 @@
 import { Injectable, inject } from '@angular/core';
 import { Contacto } from '../models/contacto.models';
 import { FireService } from './fire.service';
+import { Observable } from 'rxjs';
+import { User } from '../models/usuario.models';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ContactoService {
+  
   private fire = inject(FireService);
+  
+  getContactos(userId: string){
+    const cont = this.fire.getCollection(`users/${userId}/contactos`) as Promise<Contacto[]>;
+    return cont;
+  }
 
-  // Agregar contacto usando FireService
-  addContact(userId: string, contacto: Contacto) {
-    return this.fire.addDocument(`users/${userId}/contactos`, contacto);
+  // Eliminar contacto
+  deleteContact(userId: string, id: string){
+    return this.fire.setDocument(`users/${userId}/contactos/${id}`, null);
   }
-  // Obtener contactos 
-  getContacts(userId: string) {
-    return this.fire.getDocument(`users/${userId}/contactos`);
+
+  // Agregar contacto 
+  addContact(userId: string, user: User){
+    return this.fire.addDocument(`users/${userId}/contactos`, user);
   }
+  
 }

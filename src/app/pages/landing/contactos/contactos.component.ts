@@ -1,5 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonModal, ToastController } from '@ionic/angular';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { IonModal } from '@ionic/angular';
+import { Contacto } from 'src/app/models/contacto.models';
+import { ContactoService } from 'src/app/services/contacto.service';
+import { UtilsService } from 'src/app/services/utils.service';
+import { FireService } from '../../../services/fire.service';
+import { User } from 'src/app/models/usuario.models';
 
 @Component({
   selector: 'app-contactos',
@@ -8,32 +13,31 @@ import { IonModal, ToastController } from '@ionic/angular';
   standalone: false
 })
 export class ContactosComponent  implements OnInit {
-  contactos = [
-    {
-      email: 'ElCid@example.com',
-      uid: '122',
-      nombre : 'Cid'
-    },
-    {
-      email: 'paul@example.com',
-      uid: '123',
-      nombre : 'Paul'
-    },
-    {
-      email: 'c@example.com',
-      uid: '12345523541',
-      nombre : 'seba'
-    }   
-  ]
-  open_new_contact = false;
+  private contactoSvc = inject(ContactoService);
+  private utils = inject(UtilsService);
+  private fire = inject(FireService);
 
+  contactos: Contacto[] = [];
+  open_new_contact = false;
+  newEmail = '';
+  userId = this.utils.getFromLocalStorage('user').uid; 
   @ViewChild('new_contact', { static: true }) modal!: IonModal;
 
-  newEmail = '';
-  
-  constructor(private toastCtrl: ToastController ) { }
+  ngOnInit() {
+    this.cargarContactos();
+  }
 
-  ngOnInit() {}
+  cargarContactos() {
+    this.contactoSvc.getContactos(this.userId).then( contactos => {
+      contactos.sort((a, b) => a.displayName.localeCompare(b.displayName));
+      this.contactos = contactos;
+    });
+  }
+
+  async getUser(email: string) {
+    const user = (await this.fire.getCollection(`users`, [{ field: 'email', opStr: '==', value: email }])) as User[];
+    return user[0];
+  }
   
   toggleModal() {
     this.open_new_contact = !this.open_new_contact;
@@ -46,33 +50,40 @@ export class ContactosComponent  implements OnInit {
     return regex.test(email);
   }
 
-  async showToast(message: string) {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      color: 'danger',
-      position: 'bottom',
-    });
-    toast.present();
-  }
-
   async addContact() {
-    // Valida el correo
-    if (!this.isEmailValid(this.newEmail)) {
-      this.showToast('Ingrese un correo electrónico válido.');
-      return;
+    if (this.newEmail && this.isEmailValid(this.newEmail)) {
+      const loading = await this.utils.presentLoading();
+      try {
+        const user = await this.getUser(this.newEmail);
+        await this.contactoSvc.addContact(this.userId, user);
+        this.utils.presentToast({
+          message: 'Contacto agregado correctamente.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'success'
+        })
+        this.cargarContactos();
+        this.toggleModal();
+      } catch (error) {
+        this.utils.presentToast({
+          message: 'Error al agregar el contacto. Asegúrate de que el usuario exista.',
+          duration: 2000,
+          position: 'bottom',
+          color: 'danger'
+        });
+      }
+      finally {
+        loading.dismiss();
+      }
+    } else {
+      this.utils.presentToast({
+        message:'Por favor, ingresa un correo valido.',
+        duration: 2000,
+        position: 'bottom',
+        color: 'warning'
+      });
     }
-
-    //agrega el contacto
-    this.contactos.push({ email: this.newEmail, uid: '', nombre: 'usuarioXD' });
-
-    // Limpiar
-    this.newEmail = '';
-    
-    // Cierra el modal
-    this.toggleModal();
   }
-
 
   cancel() {
     this.modal.dismiss();
