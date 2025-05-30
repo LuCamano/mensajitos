@@ -52,10 +52,9 @@ export class ContactosComponent  implements OnInit {
 
   async addContact() {
     if (this.newEmail && this.isEmailValid(this.newEmail)) {
-      console.log('Agregando contacto con email:', this.newEmail);
+      const loading = await this.utils.presentLoading();
       try {
         const user = await this.getUser(this.newEmail);
-        console.log('Usuario encontrado:', user);
         await this.contactoSvc.addContact(this.userId, user);
         this.utils.presentToast({
           message: 'Contacto agregado correctamente.',
@@ -63,9 +62,9 @@ export class ContactosComponent  implements OnInit {
           position: 'bottom',
           color: 'success'
         })
+        this.cargarContactos();
         this.toggleModal();
       } catch (error) {
-        console.error('Error al agregar el contacto:', error);
         this.utils.presentToast({
           message: 'Error al agregar el contacto. Asegúrate de que el usuario exista.',
           duration: 2000,
@@ -73,9 +72,12 @@ export class ContactosComponent  implements OnInit {
           color: 'danger'
         });
       }
+      finally {
+        loading.dismiss();
+      }
     } else {
       this.utils.presentToast({
-        message:'Por favor, ingresa un correo electr&oacute;nico v&aacute;lido.',
+        message:'Por favor, ingresa un correo valido.',
         duration: 2000,
         position: 'bottom',
         color: 'warning'

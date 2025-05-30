@@ -14,7 +14,6 @@ export class ContactoService {
   
   getContactos(userId: string){
     const cont = this.fire.getCollection(`users/${userId}/contactos`) as Promise<Contacto[]>;
-    console.log('Contactos obtenidos:', cont);
     return cont;
   }
 
