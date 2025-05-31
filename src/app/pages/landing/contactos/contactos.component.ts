@@ -23,6 +23,9 @@ export class ContactosComponent  implements OnInit {
   userId = this.utils.getFromLocalStorage('user').uid; 
   @ViewChild('new_contact', { static: true }) modal!: IonModal;
 
+  selectedContact: Contacto | null = null;
+  open_contact_options = false;
+
   ngOnInit() {
     this.cargarContactos();
   }
@@ -93,5 +96,42 @@ export class ContactosComponent  implements OnInit {
     this.open_new_contact = false;
     this.newEmail = '';
   }
+
+  openContactOptions(contacto: any, event: Event) {
+  event.stopPropagation();
+  this.selectedContact = contacto;
+  this.open_contact_options = true;
+}
+
+  closeContactOptions() {
+  this.open_contact_options = false;
+  this.selectedContact = null;
+}
+
+  blockContact(contacto: any) {
+  contacto.bloqueado = true;
+  this.utils.presentToast(
+    {
+      message: `Contacto ${contacto.nombre} bloqueado.`,
+      duration: 2000,
+      position: 'bottom',
+      color: 'danger'
+    }
+  );
+  this.closeContactOptions();
+}
+
+  unblockContact(contacto: any) {
+  contacto.bloqueado = false;
+  this.utils.presentToast(
+    {
+      message: `Contacto ${contacto.nombre} desbloqueado.`,
+      duration: 2000,
+      position: 'bottom',
+      color: 'success'
+    }
+  );
+  this.closeContactOptions();
+}
 
 }
