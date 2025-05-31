@@ -97,7 +97,7 @@ export class ContactosComponent  implements OnInit {
     this.newEmail = '';
   }
 
-  openContactOptions(contacto: any, event: Event) {
+  openContactOptions(contacto: Contacto, event: Event) {
   event.stopPropagation();
   this.selectedContact = contacto;
   this.open_contact_options = true;
@@ -108,7 +108,7 @@ export class ContactosComponent  implements OnInit {
   this.selectedContact = null;
 }
 
-  blockContact(contacto: any) {
+  blockContact(contacto: Contacto) {
     contacto.bloqueado = true;
     this.utils.presentToast(
       {
