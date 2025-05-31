@@ -8,10 +8,7 @@ import { FireService } from 'src/app/services/fire.service';
   standalone: false
 })
 export class LandingPage implements OnInit {
-    private fireService = new FireService();
-
-  
-
+    constructor(private fireService: FireService) {}
   ngOnInit() {
   }
 
