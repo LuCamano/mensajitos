@@ -109,29 +109,29 @@ export class ContactosComponent  implements OnInit {
 }
 
   blockContact(contacto: any) {
-  contacto.bloqueado = true;
-  this.utils.presentToast(
-    {
-      message: `Contacto ${contacto.nombre} bloqueado.`,
-      duration: 2000,
-      position: 'bottom',
-      color: 'danger'
-    }
-  );
-  this.closeContactOptions();
-}
+    contacto.bloqueado = true;
+    this.utils.presentToast(
+      {
+        message: `Contacto ${contacto.displayName} bloqueado.`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      }
+    );
+    this.closeContactOptions();
+  }
 
   unblockContact(contacto: any) {
-  contacto.bloqueado = false;
-  this.utils.presentToast(
-    {
-      message: `Contacto ${contacto.nombre} desbloqueado.`,
-      duration: 2000,
-      position: 'bottom',
-      color: 'success'
-    }
-  );
-  this.closeContactOptions();
-}
+    contacto.bloqueado = false;
+    this.utils.presentToast(
+      {
+        message: `Contacto ${contacto.displayName} desbloqueado.`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      }
+    );
+    this.closeContactOptions();
+  }
 
 }
