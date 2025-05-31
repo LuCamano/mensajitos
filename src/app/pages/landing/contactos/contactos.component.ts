@@ -121,7 +121,7 @@ export class ContactosComponent  implements OnInit {
     this.closeContactOptions();
   }
 
-  unblockContact(contacto: any) {
+  unblockContact(contacto: Contacto) {
     contacto.bloqueado = false;
     this.utils.presentToast(
       {
