@@ -11,7 +11,7 @@
     </ion-item>
   </ion-list>
 
-  <div *ngIf="selectedChat">
+  <div *ngIf="selectedChat" class="chat-container">
     <ion-header>
       <ion-toolbar>
         <ion-title>Chat con {{ selectedChat.contacto.displayName }}</ion-title>
@@ -20,10 +20,22 @@
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
-    <ion-content>
-      <div style="padding: 16px;">
-        <p><i>Maquetado simple de chat aquí...</i></p>
+    <div class="messages-area">
+      <div class="message" *ngFor="let msg of mockMessages">
+        <div [ngClass]="{'sent': msg.sent, 'received': !msg.sent}">
+          <span>{{ msg.text }}</span>
+        </div>
       </div>
-    </ion-content>
+    </div>
+    <ion-footer class="chat-footer">
+      <ion-toolbar>
+        <ion-input
+          [(ngModel)]="newMessage"
+          placeholder="Escribe tu mensaje..."
+          class="chat-input"
+        ></ion-input>
+        <ion-button slot="end" (click)="sendMessage()" [disabled]="!newMessage">Enviar</ion-button>
+      </ion-toolbar>
+    </ion-footer>
   </div>
 </ion-content>
