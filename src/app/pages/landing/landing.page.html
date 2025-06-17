@@ -24,11 +24,11 @@
 <ion-content>
   <ion-segment-view>
     <ion-segment-content id="chats">
-      <app-chats></app-chats>
+      <app-chats [contacto]="contactoActual"></app-chats>
     </ion-segment-content>
     
     <ion-segment-content id="contactos">
-      <app-contactos></app-contactos>
+      <app-contactos (contactoSeleccionado)="abrirChat($event)" ></app-contactos>
     </ion-segment-content>
 
     <ion-segment-content id="perfil">

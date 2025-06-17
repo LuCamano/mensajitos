@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { Contacto } from 'src/app/models/contacto.models';
 import { ContactoService } from 'src/app/services/contacto.service';
@@ -136,8 +136,11 @@ export class ContactosComponent  implements OnInit {
     this.closeContactOptions();
   }
 
+  @Output() contactoSeleccionado = new EventEmitter<Contacto>();
+
   onContactClick(contacto: Contacto) {
     this.chatService.openChat(contacto);
-    this.utils.navigateForwardTo('/chats'); // Navega a la pestaña de chats
+  // Emitir el evento con el contacto seleccionado
+    this.contactoSeleccionado.emit(contacto);
   }
 }

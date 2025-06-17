@@ -21,20 +21,20 @@
       </ion-toolbar>
     </ion-header>
     <div class="messages-area">
-      <div class="message" *ngFor="let msg of mockMessages">
-        <div [ngClass]="{'sent': msg.sent, 'received': !msg.sent}">
-          <span>{{ msg.text }}</span>
+      <div class="message" *ngFor="let msg of mensajes">
+        <div [ngClass]="{'sent': msg.id === user.uid, 'received': msg.id !== user.uid}">
+          <span>{{ msg.contenido }}</span>
         </div>
       </div>
     </div>
     <ion-footer class="chat-footer">
       <ion-toolbar>
         <ion-input
-          [(ngModel)]="newMessage"
+          [(ngModel)]="nuevoMensaje"
           placeholder="Escribe tu mensaje..."
           class="chat-input"
         ></ion-input>
-        <ion-button slot="end" (click)="sendMessage()" [disabled]="!newMessage">Enviar</ion-button>
+        <ion-button slot="end" (click)="enviarMensaje()" [disabled]="!nuevoMensaje">Enviar</ion-button>
       </ion-toolbar>
     </ion-footer>
   </div>
