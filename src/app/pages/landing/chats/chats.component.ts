@@ -26,16 +26,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
   private mensajesUnsubscribe?: () => void;
   
   constructor(private chatService: ChatService) {}
-  // Mock de mensajes para maquetado
-  mockMessages: { text: string; sent: boolean }[] = [
-    { text: '¡Hola!', sent: false },
-    { text: 'Hola, ¿cómo estás?', sent: true },
-    { text: 'Estoy bien, gracias.', sent: false },
-    { text: '¿Y tú?', sent: true },
-    { text: 'Todo bien, gracias por preguntar.', sent: false }
-  ];
   
-
 
   async ngOnInit() {
     this.chatService.chats$.subscribe(chats => this.chats = chats);
