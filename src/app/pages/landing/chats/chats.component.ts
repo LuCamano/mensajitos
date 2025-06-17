@@ -4,6 +4,7 @@ import { Chat } from 'src/app/models/chat.models';
 import { Contacto } from 'src/app/models/contacto.models';
 import { Mensaje } from 'src/app/models/mensaje.model';
 import { User } from '../../../models/usuario.models';
+import { getAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-chats',
@@ -18,6 +19,7 @@ export class ChatsComponent implements OnInit, OnDestroy {
   chatId: string = '';
   mensajes: Mensaje[] = [];
   newMessage: string = '';
+  currentUserId = getAuth().currentUser?.uid || '';
 
   user: User = JSON.parse(localStorage.getItem('user')!);
 
@@ -49,10 +51,14 @@ export class ChatsComponent implements OnInit, OnDestroy {
 
   @Input() contacto?: Contacto;
 
-  openChat(chat: Chat) {
-    this.selectedChat = chat;
-    
-  }
+  async openChat(chat: Chat) {
+  this.selectedChat = chat;
+  this.chatId = await this.chatService.getChatId(chat.contacto.uid!);
+
+  this.chatService.escucharMensajes(this.chatId, (mensajes: Mensaje[]) => {
+    this.mensajes = mensajes;
+  });
+}
 
   closeChat() {
     this.selectedChat = null;

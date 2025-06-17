@@ -72,7 +72,7 @@ export class ChatService {
     }
   }
 
-  // 🧠 2. Escuchar los mensajes del chat
+  // 2. Escuchar los mensajes del chat
   escucharMensajes(chatId: string, callback: (mensajes: Mensaje[]) => void) {
     const mensajesRef = collection(this.fireService['ngFirestore'].firestore, 'chats', chatId, 'mensajes');
     const q = query(mensajesRef, orderBy('timestamp'));
@@ -86,7 +86,7 @@ export class ChatService {
     });
   }
 
-  // 🧠 3. Enviar mensaje
+  // 3. Enviar mensaje
   async enviarMensaje(chatId: string, contenido: string) {
     const mensaje: Mensaje = {
       emisorUid: this.user.uid!,

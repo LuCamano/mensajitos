@@ -22,7 +22,7 @@
     </ion-header>
     <div class="messages-area">
       <div class="message" *ngFor="let msg of mensajes">
-        <div [ngClass]="{'sent': msg.id === user.uid, 'received': msg.id !== user.uid}">
+        <div [ngClass]="{ 'sent': msg.emisorUid === currentUserId, 'received': msg.emisorUid !== currentUserId }">
           <span>{{ msg.contenido }}</span>
         </div>
       </div>
@@ -30,11 +30,11 @@
     <ion-footer class="chat-footer">
       <ion-toolbar>
         <ion-input
-          [(ngModel)]="nuevoMensaje"
+          [(ngModel)]="newMessage"
           placeholder="Escribe tu mensaje..."
           class="chat-input"
         ></ion-input>
-        <ion-button slot="end" (click)="enviarMensaje()" [disabled]="!nuevoMensaje">Enviar</ion-button>
+        <ion-button slot="end" (click)="sendMessage()" [disabled]="!newMessage">Enviar</ion-button>
       </ion-toolbar>
     </ion-footer>
   </div>
