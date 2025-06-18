@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output, ViewChild } from '@angular/core';
 import { IonModal } from '@ionic/angular';
 import { Contacto } from 'src/app/models/contacto.models';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { UtilsService } from 'src/app/services/utils.service';
 import { FireService } from '../../../services/fire.service';
 import { User } from 'src/app/models/usuario.models';
+import { ChatService } from 'src/app/services/chat.service';
 
 @Component({
   selector: 'app-contactos',
@@ -16,6 +17,7 @@ export class ContactosComponent  implements OnInit {
   private contactoSvc = inject(ContactoService);
   private utils = inject(UtilsService);
   private fire = inject(FireService);
+  private chatService = inject(ChatService);
 
   contactos: Contacto[] = [];
   open_new_contact = false;
@@ -134,4 +136,11 @@ export class ContactosComponent  implements OnInit {
     this.closeContactOptions();
   }
 
+  @Output() contactoSeleccionado = new EventEmitter<Contacto>();
+
+  onContactClick(contacto: Contacto) {
+    this.chatService.openChat(contacto);
+  // Emitir el evento con el contacto seleccionado
+    this.contactoSeleccionado.emit(contacto);
+  }
 }
