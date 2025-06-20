@@ -1,17 +1,21 @@
 /* Colores personalizados */
 :root {
-  --mint-green: #a2f2d4;       // Verde menta
-  --pastel-purple: #c8a2c8;   // Morado pastel
-  --dark-mint: #7ad4b5;        // Variante oscura para hover
+  --mint-green: #a2f2d4;
+  --pastel-purple: #c8a2c8;
+  --dark-mint: #7ad4b5;
+  --metallic-cyan: #4fd8db; // Cian metálico brillante
+  --metallic-cyan-dark: #34b6ba;
+  --input-text-color: #ffffff;
 }
 
-/* Estilos generales */
+/* Fondo general */
 .mint-bg {
   --background: var(--mint-green);
   background: var(--mint-green);
   height: 100%;
 }
 
+/* Encabezado */
 .custom-toolbar {
   --background: var(--pastel-purple);
   --color: #ffffff;
@@ -20,6 +24,59 @@
 .title-text {
   font-weight: 600;
   letter-spacing: 0.5px;
+  font-size: 1.4rem;
+}
+
+.welcome-title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Contenedor principal */
+.login-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.login-btn {
+  --background: #382055;
+  --background-activated: #4a2a70;
+  --background-hover: #4a2a70;
+  --color: #ffffff;
+  --border-radius: 12px;
+  height: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin-top: 1.5rem;
+}
+
+.card-container {
+  background: #382055;
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+
+/* Animación suave */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Formulario */
@@ -28,49 +85,54 @@
   padding: 0 1rem;
 }
 
+/* Campos del formulario */
 .form-item {
   --background: transparent;
-  --border-color: rgba(255, 255, 255, 0.5);
-  --highlight-color-focused: var(--pastel-purple);
+  --border-color: rgba(255, 255, 255, 0.3);
+  --highlight-color-focused: #ffffff;
   margin-bottom: 1.5rem;
+  border-radius: 10px;
+  backdrop-filter: blur(2px);
 }
 
 .input-label {
-  color: #5a5a5a !important;
+  color: #ffffff !important;
   font-weight: 500;
 }
 
 .custom-input {
-  --color: #333333;
-  --padding-end: 0;
-  --padding-start: 0;
+  --color: var(--input-text-color);
+  --placeholder-color: #eeeeee;
+  font-size: 1rem;
 }
 
-/* Botones */
+/* Botón principal */
 .submit-btn {
-  --background: var(--pastel-purple);
-  --background-activated: var(--dark-mint);
-  --background-hover: var(--dark-mint);
-  --color: white;
+  --background: white;
+  --color: var(--metallic-cyan-dark);
+  --background-activated: #be8888;
   --border-radius: 12px;
   height: 50px;
   font-weight: 600;
   margin-top: 2rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
 }
 
+/* Botones secundarios */
 .secondary-btn {
-  --color: var(--pastel-purple);
-  --color-activated: var(--dark-mint);
-  --color-hover: var(--dark-mint);
-  margin-top: 0.5rem;
+  --color: #ffffff;
   font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: underline;
+  margin-top: 0.5rem;
 }
 
-.spinner {
-  color: white;
-}
-
-.btn-text {
-  letter-spacing: 0.5px;
+/* Footer opcional */
+.app-footer {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.85rem;
+  color: #ffffff;
+  opacity: 0.75;
 }

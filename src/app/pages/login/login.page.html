@@ -1,31 +1,43 @@
 <ion-header>
-  <ion-toolbar color="primary" class="custom-toolbar">
+  <ion-toolbar class="custom-toolbar header-gradient">
     <ion-title class="title-text">Iniciar Sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding mint-bg">
+<ion-content class="ion-padding mint-bg login-content">
+  <div class="login-header-container">
+    <div class="login-header-text">
+      <h2 class="welcome-title">Hola de nuevo</h2>
+      <h2 class="welcome-tittle">Inicia sesión para continuar</h2>
+    </div>
+  </div>
+
   <ion-row>
     <ion-col sizeMd="6" offsetMd="3">
-      <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="auth-form">
-        <ion-item class="form-item">
+      <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="auth-form card-container">
+        
+        <ion-item class="form-item" lines="none">
+          <ion-icon slot="start" name="mail-outline" class="input-icon"></ion-icon>
           <ion-label position="floating" class="input-label">Correo Electrónico</ion-label>
           <ion-input type="email" formControlName="email" required class="custom-input"></ion-input>
         </ion-item>
-        
-        <ion-item class="form-item">
+
+        <ion-item class="form-item" lines="none">
+          <ion-icon slot="start" name="lock-closed-outline" class="input-icon"></ion-icon>
           <ion-label position="floating" class="input-label">Contraseña</ion-label>
-          <ion-input type="password" formControlName="password" required class="custom-input"><ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
+          <ion-input type="password" formControlName="password" required class="custom-input"></ion-input>
+          <ion-icon name="eye-outline" slot="end" class="toggle-password-icon"></ion-icon>
         </ion-item>
-        
+
         <ion-button 
           type="submit" 
           expand="block" 
           class="submit-btn ion-margin-top"
           [disabled]="loginForm.invalid">
+          <ion-icon name="log-in-outline" slot="start"></ion-icon>
           <span class="btn-text">Iniciar Sesión</span>
         </ion-button>
-        
+
         <ion-button 
           type="button"
           expand="block" 
@@ -33,9 +45,10 @@
           routerLink="/login/signup"
           routerDirection="forward"
           class="secondary-btn">
+          <ion-icon name="person-add-outline" slot="start"></ion-icon>
           ¿No tienes cuenta? Regístrate
         </ion-button>
-        
+
         <ion-button 
           type="button"
           expand="block" 
@@ -43,8 +56,10 @@
           routerLink="/login/forgot-password"
           routerDirection="forward"
           class="secondary-btn">
+          <ion-icon name="help-circle-outline" slot="start"></ion-icon>
           ¿Olvidaste tu contraseña?
         </ion-button>
+        
       </form>
     </ion-col>
   </ion-row>
