@@ -13,7 +13,7 @@
       </h2>
       <p>{{ contacto.email }}</p>
     </ion-label>
-    <div style="text-align: center;">
+    <div *ngIf="contactos.length === 0" style="text-align: center;">
       <img src="assets/contactos.png" alt="No hay chats" style="max-width: 100px; margin-bottom: 10px;">
     </div>
     <ion-icon 
