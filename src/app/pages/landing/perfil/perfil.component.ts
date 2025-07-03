@@ -6,10 +6,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./perfil.component.scss'],
   standalone: false
 })
-export class PerfilComponent  implements OnInit {
+export class PerfilComponent implements OnInit {
+
+  user: string = '';
+  email: string = '';
 
   constructor() { }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    const usuario = JSON.parse(localStorage.getItem('user') || '{}');
+    this.user = usuario.displayName || 'Usuario';
+    this.email = usuario.email || '';
+  }
 }

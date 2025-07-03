@@ -1,3 +1,28 @@
-<p>
-  perfil works!
-</p>
+<ion-content class="ion-padding">
+  <ion-card style="box-shadow: none; border: none; background: #fff;">
+    <ion-avatar slot="start" style="margin: 24px auto 16px auto;">
+      <img src="https://www.gravatar.com/avatar?d=mp&s=100" alt="Avatar">
+    </ion-avatar>
+    <ion-card-content>
+      <div style="text-align: center;">
+        <img src="assets/perfil.png" alt="No hay chats" style="max-width: 100px; margin-bottom: 10px;">
+      </div>
+      <div style="padding: 0 8px;">
+        <div>
+          <strong>N. de Usuario:</strong>
+          <div>{{ user }}</div>
+        </div>
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 18px 0;">
+        <div>
+          <strong>Correo:</strong>
+          <div>{{ email }}</div>
+        </div>
+      </div>
+      <ion-list lines="full" style="margin-top: 32px;">
+        <ion-item button>
+          <ion-label color="primary">Editar perfil</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

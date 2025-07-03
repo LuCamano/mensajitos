@@ -6,6 +6,9 @@
         <p>{{ chat.contacto.email }}</p>
       </ion-label>
     </ion-item>
+    <div *ngIf="chats.length === 0" style="text-align: center;">
+      <img src="assets/chats.png" alt="No hay chats" style="max-width: 100px; margin-bottom: 10px;">
+    </div>
     <ion-item *ngIf="chats.length === 0">
       <ion-label>No hay chats abiertos.</ion-label>
     </ion-item>
