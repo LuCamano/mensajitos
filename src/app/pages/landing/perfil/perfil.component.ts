@@ -12,4 +12,7 @@ export class PerfilComponent  implements OnInit {
 
   ngOnInit() {}
 
+  user = 'Usuario de Ejemplo';
+  email = '8Bk6U@example.com'; 
+
 }
