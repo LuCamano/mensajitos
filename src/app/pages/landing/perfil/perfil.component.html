@@ -7,7 +7,9 @@
       <div style="text-align: center;">
         <img src="assets/perfil.png" alt="No hay chats" style="max-width: 100px; margin-bottom: 10px;">
       </div>
-      <div style="padding: 0 8px;">
+      
+      <!-- View Mode -->
+      <div *ngIf="!isEditMode" style="padding: 0 8px;">
         <div>
           <strong>N. de Usuario:</strong>
           <div>{{ user }}</div>
@@ -18,8 +20,51 @@
           <div>{{ email }}</div>
         </div>
       </div>
-      <ion-list lines="full" style="margin-top: 32px;">
-        <ion-item button>
+      
+      <!-- Edit Mode -->
+      <form *ngIf="isEditMode" [formGroup]="editForm" (ngSubmit)="saveProfile()" style="padding: 0 8px;">
+        <ion-item lines="none" style="--padding-start: 0; --inner-padding-end: 0;">
+          <ion-label position="stacked"><strong>N. de Usuario:</strong></ion-label>
+          <ion-input
+            formControlName="displayName"
+            placeholder="Ingresa tu nombre de usuario"
+            type="text"
+            errorText="El nombre debe tener al menos 2 caracteres"
+          ></ion-input>
+        </ion-item>
+        
+        <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 18px 0;">
+        
+        <div>
+          <strong>Correo:</strong>
+          <div style="color: #666; font-style: italic;">{{ email }} (No editable)</div>
+        </div>
+        
+        <!-- Action buttons for edit mode -->
+        <div style="margin-top: 20px; display: flex; gap: 8px;">
+          <ion-button 
+            expand="block" 
+            fill="outline" 
+            color="medium" 
+            (click)="cancelEdit()" 
+            style="flex: 1;"
+          >
+            Cancelar
+          </ion-button>
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            [disabled]="editForm.invalid" 
+            style="flex: 1;"
+          >
+            Guardar
+          </ion-button>
+        </div>
+      </form>
+      
+      <!-- Edit Profile Button (only in view mode) -->
+      <ion-list *ngIf="!isEditMode" lines="full" style="margin-top: 32px;">
+        <ion-item button (click)="toggleEditMode()">
           <ion-label color="primary">Editar perfil</ion-label>
         </ion-item>
       </ion-list>
