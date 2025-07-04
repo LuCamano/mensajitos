@@ -9,20 +9,50 @@
       </div>
       <div style="padding: 0 8px;">
         <div>
-          <strong>N. de Usuario:</strong>
-          <div>{{ user }}</div>
+          <strong>Nombre de Usuario:</strong>
+          <div>{{ currentUser.displayName }}</div>
         </div>
         <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 18px 0;">
         <div>
           <strong>Correo:</strong>
-          <div>{{ email }}</div>
+          <div>{{ currentUser.email }}</div>
         </div>
       </div>
-      <ion-list lines="full" style="margin-top: 32px;">
-        <ion-item button>
-          <ion-label color="primary">Editar perfil</ion-label>
-        </ion-item>
-      </ion-list>
+      <ion-button id="editProfileButton" fill="solid" shape="round" class="ion-margin-top">
+        Editar Perfil
+      </ion-button>
     </ion-card-content>
   </ion-card>
+  <!-- Modal para editar perfil -->
+  <ion-modal trigger="editProfileButton" (willDismiss)="confirmEdit($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar color="secondary" mode="ios">
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">
+              Cancelar
+            </ion-button>
+          </ion-buttons>
+          <ion-title>Editar Perfil</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [disabled]="!editForm.valid">
+              Guardar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <form [formGroup]="editForm">
+          <ion-item>
+            <ion-label position="floating">Nombre de Usuario</ion-label>
+            <ion-input name="username" formControlName="username"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Correo Electrónico</ion-label>
+            <ion-input name="email" formControlName="email" readonly></ion-input>
+          </ion-item>
+        </form>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>
